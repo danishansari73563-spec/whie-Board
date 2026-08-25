@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#ffffff"
+    >
+
+    <title>DrawBoard - Whiteboard & Pages</title>
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600;700&family=Playfair+Display:wght@400;600;700&family=Roboto+Mono:wght@400;500;700&display=swap"
+        rel="stylesheet"
+    >
+</head>
+
+<body>
+
+<!-- =====================================================
+     APP
+===================================================== -->
+
+<div class="app">
+
+
+    <!-- =================================================
+         TOP HEADER
+    ================================================== -->
+
+    <header class="topbar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                ✏️
+            </div>
+
+            <div class="brand-text">
+                <strong>DrawBoard</strong>
+                <span>Whiteboard & Pages</span>
+            </div>
+
+        </div>
+
+
+        <!-- MODE SWITCH -->
+
+        <div class="mode-switch">
+
+            <button
+                id="whiteboardModeBtn"
+                class="mode-btn active"
+                data-mode="whiteboard"
+            >
+                🎨 Whiteboard
+            </button>
+
+            <button
+                id="pagesModeBtn"
+                class="mode-btn"
+                data-mode="pages"
+            >
+                📖 Pages
+            </button>
+
+        </div>
+
+
+        <!-- HEADER ACTIONS -->
+
+        <div class="header-actions">
+
+            <button
+                id="saveBtn"
+                class="icon-btn"
+                title="Save"
+            >
+                💾
+            </button>
+
+            <button
+                id="shareBtn"
+                class="icon-btn"
+                title="Share"
+            >
+                📤
+            </button>
+
+            <button
+                id="themeBtn"
+                class="icon-btn"
+                title="Dark Mode"
+            >
+                🌙
+            </button>
+
+            <button
+                id="settingsBtn"
+                class="icon-btn"
+                title="Settings"
+            >
+                ⚙️
+            </button>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =================================================
+         WHITEBOARD MODE
+    ================================================== -->
+
+    <main
+        id="whiteboardMode"
+        class="mode-container active-mode"
+    >
+
+
+        <!-- TOOLBAR -->
+
+        <div class="toolbar">
+
+
+            <!-- SELECT -->
+
+            <button
+                class="tool-btn active"
+                data-tool="select"
+                title="Select"
+            >
+                ↖️
+                <span>Select</span>
+            </button>
+
+
+            <!-- PEN -->
+
+            <button
+                class="tool-btn"
+                data-tool="pen"
+                title="Pen"
+            >
+                🖊️
+                <span>Pen</span>
+            </button>
+
+
+            <!-- PENCIL -->
+
+            <button
+                class="tool-btn"
+                data-tool="pencil"
+                title="Pencil"
+            >
+                ✏️
+                <span>Pencil</span>
+            </button>
+
+
+            <!-- HIGHLIGHTER -->
+
+            <button
+                class="tool-btn"
+                data-tool="highlighter"
+                title="Highlighter"
+            >
+                🖍️
+                <span>Highlight</span>
+            </button>
+
+
+            <!-- ERASER -->
+
+            <button
+                class="tool-btn"
+                data-tool="eraser"
+                title="Eraser"
+            >
+                🧽
+                <span>Eraser</span>
+            </button>
+
+
+            <div class="toolbar-divider"></div>
+
+
+            <!-- LINE -->
+
+            <button
+                class="tool-btn"
+                data-tool="line"
+                title="Line"
+            >
+                ╱
+                <span>Line</span>
+            </button>
+
+
+            <!-- ARROW -->
+
+            <button
+                class="tool-btn"
+                data-tool="arrow"
+                title="Arrow"
+            >
+                ➜
+                <span>Arrow</span>
+            </button>
+
+
+            <!-- RECTANGLE -->
+
+            <button
+                class="tool-btn"
+                data-tool="rectangle"
+                title="Rectangle"
+            >
+                ▭
+                <span>Rectangle</span>
+            </button>
+
+
+            <!-- CIRCLE -->
+
+            <button
+                class="tool-btn"
+                data-tool="circle"
+                title="Circle"
+            >
+                ◯
+                <span>Circle</span>
+            </button>
+
+
+            <!-- TRIANGLE -->
+
+            <button
+                class="tool-btn"
+                data-tool="triangle"
+                title="Triangle"
+            >
+                △
+                <span>Triangle</span>
+            </button>
+
+
+            <div class="toolbar-divider"></div>
+
+
+            <!-- TEXT -->
+
+            <button
+                class="tool-btn"
+                data-tool="text"
+                title="Text"
+            >
+                T
+                <span>Text</span>
+            </button>
+
+
+            <!-- NOTE -->
+
+            <button
+                class="tool-btn"
+                data-tool="note"
+                title="Sticky Note"
+            >
+                📝
+                <span>Note</span>
+            </button>
+
+
+            <!-- IMAGE -->
+
+            <button
+                class="tool-btn"
+                data-tool="image"
+                title="Insert Image"
+            >
+                🖼️
+                <span>Image</span>
+            </button>
+
+
+            <!-- VOICE -->
+
+            <button
+                class="tool-btn"
+                data-tool="mic"
+                title="Voice Note"
+            >
+                🎤
+                <span>Voice</span>
+            </button>
+
+
+            <!-- MOVE -->
+
+            <button
+                class="tool-btn"
+                data-tool="hand"
+                title="Move Canvas"
+            >
+                ✋
+                <span>Move</span>
+            </button>
+
+        </div>
+
+
+
+        <!-- =================================================
+             DRAWING OPTIONS
+        ================================================== -->
+
+        <div class="drawing-options">
+
+
+            <!-- COLOR -->
+
+            <div class="option-group">
+
+                <label>
+                    Color
+                </label>
+
+                <input
+                    type="color"
+                    id="colorPicker"
+                    value="#111827"
+                >
+
+            </div>
+
+
+            <!-- QUICK COLORS -->
+
+            <div class="quick-colors">
+
+                <button
+                    class="color-dot"
+                    data-color="#111827"
+                    style="background:#111827"
+                ></button>
+
+                <button
+                    class="color-dot"
+                    data-color="#ef4444"
+                    style="background:#ef4444"
+                ></button>
+
+                <button
+                    class="color-dot"
+                    data-color="#f59e0b"
+                    style="background:#f59e0b"
+                ></button>
+
+                <button
+                    class="color-dot"
+                    data-color="#22c55e"
+                    style="background:#22c55e"
+                ></button>
+
+                <button
+                    class="color-dot"
+                    data-color="#3b82f6"
+                    style="background:#3b82f6"
+                ></button>
+
+                <button
+                    class="color-dot"
+                    data-color="#8b5cf6"
+                    style="background:#8b5cf6"
+                ></button>
+
+                <button
+                    class="color-dot"
+                    data-color="#ec4899"
+                    style="background:#ec4899"
+                ></button>
+
+                <button
+                    class="color-dot"
+                    data-color="#ffffff"
+                    style="background:#ffffff"
+                ></button>
+
+            </div>
+
+
+            <!-- SIZE -->
+
+            <div class="option-group">
+
+                <label>
+                    Size
+                </label>
+
+                <input
+                    type="range"
+                    id="brushSize"
+                    min="1"
+                    max="50"
+                    value="4"
+                >
+
+                <span id="brushSizeValue">
+                    4px
+                </span>
+
+            </div>
+
+
+            <!-- OPACITY -->
+
+            <div class="option-group">
+
+                <label>
+                    Opacity
+                </label>
+
+                <input
+                    type="range"
+                    id="opacity"
+                    min="10"
+                    max="100"
+                    value="100"
+                >
+
+                <span id="opacityValue">
+                    100%
+                </span>
+
+            </div>
+
+
+            <!-- UNDO -->
+
+            <button
+                id="undoBtn"
+                class="small-action"
+                title="Undo"
+            >
+                ↶
+            </button>
+
+
+            <!-- REDO -->
+
+            <button
+                id="redoBtn"
+                class="small-action"
+                title="Redo"
+            >
+                ↷
+            </button>
+
+
+            <!-- ZOOM -->
+
+            <div class="zoom-controls">
+
+                <button id="zoomOutBtn">
+                    −
+                </button>
+
+                <span id="zoomValue">
+                    100%
+                </span>
+
+                <button id="zoomInBtn">
+                    +
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             CANVAS AREA
+        ================================================== -->
+
+        <section
+            id="canvasArea"
+            class="canvas-area"
+        >
+
+            <div
+                id="canvasBackground"
+                class="canvas-background"
+            ></div>
+
+
+            <canvas
+                id="whiteboard"
+            ></canvas>
+
+
+            <div
+                id="emptyMessage"
+                class="empty-message"
+            >
+
+                <div class="empty-icon">
+                    🎨
+                </div>
+
+                <h2>
+                    Start Creating
+                </h2>
+
+                <p>
+                    Draw, write, add notes,
+                    shapes and images.
+                </p>
+
+            </div>
+
+
+            <!-- STATUS -->
+
+            <div class="canvas-status">
+
+                <span id="toolStatus">
+                    Select
+                </span>
+
+                <span id="cursorPosition">
+                    X: 0 Y: 0
+                </span>
+
+                <span id="objectCount">
+                    Objects: 0
+                </span>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =================================================
+         PAGES MODE
+    ================================================== -->
+
+    <main
+        id="pagesMode"
+        class="mode-container pages-container"
+    >
+
+
+        <!-- PAGE SIDEBAR -->
+
+        <aside class="pages-sidebar">
+
+            <div class="pages-sidebar-header">
+
+                <div>
+                    <strong>
+                        My Pages
+                    </strong>
+
+                    <small>
+                        Your notebook
+                    </small>
+                </div>
+
+
+                <button
+                    id="newPageBtn"
+                    class="new-page-btn"
+                >
+                    ＋
+                </button>
+
+            </div>
+
+
+            <!-- PAGE SEARCH -->
+
+            <div class="page-search">
+
+                <input
+                    type="search"
+                    id="pageSearch"
+                    placeholder="Search pages..."
+                >
+
+            </div>
+
+
+            <!-- PAGE LIST -->
+
+            <div
+                id="pageList"
+                class="page-list"
+            >
+
+                <!-- JavaScript will create pages here -->
+
+            </div>
+
+
+            <!-- PAGE SIDEBAR BOTTOM -->
+
+            <div class="pages-sidebar-bottom">
+
+                <button
+                    id="importPageBtn"
+                >
+                    📥 Import
+                </button>
+
+                <button
+                    id="duplicatePageBtn"
+                >
+                    📄 Duplicate
+                </button>
+
+                <button
+                    id="deletePageBtn"
+                >
+                    🗑️ Delete
+                </button>
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- =================================================
+             DOCUMENT AREA
+        ================================================== -->
+
+        <section class="document-workspace">
+
+
+            <!-- DOCUMENT TOOLBAR -->
+
+            <div class="document-toolbar">
+
+
+                <!-- STYLE -->
+
+                <select
+                    id="paragraphStyle"
+                    title="Text style"
+                >
+
+                    <option value="paragraph">
+                        Paragraph
+                    </option>
+
+                    <option value="title">
+                        Title
+                    </option>
+
+                    <option value="heading1">
+                        Heading 1
+                    </option>
+
+                    <option value="heading2">
+                        Heading 2
+                    </option>
+
+                    <option value="heading3">
+                        Heading 3
+                    </option>
+
+                    <option value="quote">
+                        Quote
+                    </option>
+
+                </select>
+
+
+                <!-- FONT -->
+
+                <select
+                    id="fontFamily"
+                    title="Font"
+                >
+
+                    <option value="Inter">
+                        Inter
+                    </option>
+
+                    <option value="Poppins">
+                        Poppins
+                    </option>
+
+                    <option value="Roboto">
+                        Roboto
+                    </option>
+
+                    <option value="Open Sans">
+                        Open Sans
+                    </option>
+
+                    <option value="Playfair Display">
+                        Playfair Display
+                    </option>
+
+                    <option value="Roboto Mono">
+                        Roboto Mono
+                    </option>
+
+                    <option value="Georgia">
+                        Georgia
+                    </option>
+
+                    <option value="Arial">
+                        Arial
+                    </option>
+
+                    <option value="Times New Roman">
+                        Times New Roman
+                    </option>
+
+                </select>
+
+
+                <!-- FONT SIZE -->
+
+                <select
+                    id="fontSize"
+                    title="Font size"
+                >
+
+                    <option value="12">
+                        12
+                    </option>
+
+                    <option value="14">
+                        14
+                    </option>
+
+                    <option value="16"
+                        selected>
+                        16
+                    </option>
+
+                    <option value="18">
+                        18
+                    </option>
+
+                    <option value="20">
+                        20
+                    </option>
+
+                    <option value="24">
+                        24
+                    </option>
+
+                    <option value="28">
+                        28
+                    </option>
+
+                    <option value="32">
+                        32
+                    </option>
+
+                    <option value="40">
+                        40
+                    </option>
+
+                    <option value="48">
+                        48
+                    </option>
+
+                    <option value="60">
+                        60
+                    </option>
+
+                    <option value="72">
+                        72
+                    </option>
+
+                </select>
+
+
+                <div class="document-divider"></div>
+
+
+                <!-- BOLD -->
+
+                <button
+                    id="pageBoldBtn"
+                    class="format-btn"
+                    title="Bold"
+                >
+                    <strong>B</strong>
+                </button>
+
+
+                <!-- ITALIC -->
+
+                <button
+                    id="pageItalicBtn"
+                    class="format-btn"
+                    title="Italic"
+                >
+                    <em>I</em>
+                </button>
+
+
+                <!-- UNDERLINE -->
+
+                <button
+                    id="pageUnderlineBtn"
+                    class="format-btn"
+                    title="Underline"
+                >
+                    <u>U</u>
+                </button>
+
+
+                <!-- STRIKE -->
+
+                <button
+                    id="pageStrikeBtn"
+                    class="format-btn"
+                    title="Strike"
+                >
+                    <s>S</s>
+                </button>
+
+
+                <div class="document-divider"></div>
+
+
+                <!-- TEXT COLOR -->
+
+                <label
+                    class="text-color-picker"
+                    title="Text Color"
+                >
+
+                    A
+
+                    <input
+                        type="color"
+                        id="pageTextColor"
+                        value="#111827"
+                    >
+
+                </label>
+
+
+                <!-- HIGHLIGHT -->
+
+                <label
+                    class="text-highlight-picker"
+                    title="Highlight"
+                >
+
+                    🖍️
+
+                    <input
+                        type="color"
+                        id="pageHighlightColor"
+                        value="#fff3a3"
+                    >
+
+                </label>
+
+
+                <div class="document-divider"></div>
+
+
+                <!-- ALIGN -->
+
+                <button
+                    id="alignLeftBtn"
+                    class="format-btn active"
+                    title="Align Left"
+                >
+                    ☰
+                </button>
+
+                <button
+                    id="alignCenterBtn"
+                    class="format-btn"
+                    title="Align Center"
+                >
+                    ≡
+                </button>
+
+                <button
+                    id="alignRightBtn"
+                    class="format-btn"
+                    title="Align Right"
+                >
+                    ☷
+                </button>
+
+
+                <div class="document-divider"></div>
+
+
+                <!-- LIST -->
+
+                <button
+                    id="bulletListBtn"
+                    class="format-btn"
+                    title="Bullet List"
+                >
+                    •☰
+                </button>
+
+
+                <button
+                    id="numberListBtn"
+                    class="format-btn"
+                    title="Numbered List"
+                >
+                    1☰
+                </button>
+
+
+                <!-- LINK -->
+
+                <button
+                    id="insertLinkBtn"
+                    class="format-btn"
+                    title="Insert Link"
+                >
+                    🔗
+                </button>
+
+
+                <!-- IMAGE -->
+
+                <button
+                    id="insertPageImageBtn"
+                    class="format-btn"
+                    title="Insert Image"
+                >
+                    🖼️
+                </button>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 DOCUMENT PAGE
+            ================================================== -->
+
+            <div
+                id="documentScrollArea"
+                class="document-scroll-area"
+            >
+
+                <article
+                    id="documentPage"
+                    class="document-page"
+                >
+
+
+                    <!-- PAGE HEADER -->
+
+                    <div class="document-page-header">
+
+                        <input
+                            id="pageTitle"
+                            class="page-title"
+                            type="text"
+                            placeholder="Untitled Page"
+                            value="Untitled Page"
+                        >
+
+                        <div class="page-info">
+
+                            <span id="pageNumber">
+                                Page 1
+                            </span>
+
+                            <span>
+                                •
+                            </span>
+
+                            <span id="wordCount">
+                                0 words
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- EDITOR -->
+
+                    <div
+                        id="richEditor"
+                        class="rich-editor"
+                        contenteditable="true"
+                        spellcheck="true"
+                        data-placeholder="Start writing your page..."
+                    ></div>
+
+
+                    <!-- PAGE FOOTER -->
+
+                    <footer class="document-page-footer">
+
+                        <span>
+                            DrawBoard
+                        </span>
+
+                        <span
+                            id="pageFooterNumber"
+                        >
+                            1
+                        </span>
+
+                    </footer>
+
+                </article>
+
+            </div>
+
+
+
+            <!-- DOCUMENT BOTTOM BAR -->
+
+            <div class="document-bottom-bar">
+
+                <div class="document-info">
+
+                    <span id="saveStatus">
+                        ✓ Saved
+                    </span>
+
+                </div>
+
+
+                <div class="document-actions">
+
+                    <button
+                        id="downloadPageBtn"
+                    >
+                        📥 Download
+                    </button>
+
+                    <button
+                        id="printPageBtn"
+                    >
+                        🖨️ Print
+                    </button>
+
+                    <button
+                        id="sharePageBtn"
+                        class="primary-btn"
+                    >
+                        📤 Share Page
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =================================================
+         TEXT EDITOR POPUP - WHITEBOARD
+    ================================================== -->
+
+    <div
+        id="textEditor"
+        class="floating-editor"
+        hidden
+    >
+
+        <div class="floating-editor-header">
+
+            <strong>
+                Add Text
+            </strong>
+
+            <button
+                id="cancelTextBtn"
+            >
+                ✕
+            </button>
+
+        </div>
+
+
+        <textarea
+            id="textInput"
+            placeholder="Type your text..."
+            rows="5"
+        ></textarea>
+
+
+        <div class="text-options">
+
+            <select id="textFontFamily">
+
+                <option value="Inter">
+                    Inter
+                </option>
+
+                <option value="Poppins">
+                    Poppins
+                </option>
+
+                <option value="Roboto">
+                    Roboto
+                </option>
+
+                <option value="Georgia">
+                    Georgia
+                </option>
+
+                <option value="Arial">
+                    Arial
+                </option>
+
+            </select>
+
+
+            <input
+                type="number"
+                id="textFontSize"
+                value="24"
+                min="8"
+                max="150"
+            >
+
+
+            <button
+                id="boldBtn"
+                class="format-btn"
+            >
+                <strong>B</strong>
+            </button>
+
+
+            <button
+                id="italicBtn"
+                class="format-btn"
+            >
+                <em>I</em>
+            </button>
+
+
+            <button
+                id="underlineBtn"
+                class="format-btn"
+            >
+                <u>U</u>
+            </button>
+
+        </div>
+
+
+        <button
+            id="addTextBtn"
+            class="primary-btn full-btn"
+        >
+            Add Text
+        </button>
+
+    </div>
+
+
+
+    <!-- =================================================
+         NOTE EDITOR
+    ================================================== -->
+
+    <div
+        id="noteEditor"
+        class="floating-editor note-editor"
+        hidden
+    >
+
+        <div class="floating-editor-header">
+
+            <strong>
+                📝 Sticky Note
+            </strong>
+
+            <button
+                id="closeNoteBtn"
+            >
+                ✕
+            </button>
+
+        </div>
+
+
+        <textarea
+            id="noteInput"
+            placeholder="Write your note..."
+            rows="6"
+        ></textarea>
+
+
+        <div class="note-colors">
+
+            <button
+                data-note-color="#fff3a3"
+                style="background:#fff3a3"
+            ></button>
+
+            <button
+                data-note-color="#ffd6d6"
+                style="background:#ffd6d6"
+            ></button>
+
+            <button
+                data-note-color="#d9f7d9"
+                style="background:#d9f7d9"
+            ></button>
+
+            <button
+                data-note-color="#d9eaff"
+                style="background:#d9eaff"
+            ></button>
+
+            <button
+                data-note-color="#eadcff"
+                style="background:#eadcff"
+            ></button>
+
+        </div>
+
+
+        <button
+            id="addNoteBtn"
+            class="primary-btn full-btn"
+        >
+            Add Note
+        </button>
+
+    </div>
+
+
+
+    <!-- =================================================
+         SHARE MODAL
+    ================================================== -->
+
+    <div
+        id="shareModal"
+        class="modal"
+        hidden
+    >
+
+        <div class="modal-box share-box">
+
+            <button
+                id="closeShareBtn"
+                class="modal-close"
+            >
+                ✕
+            </button>
+
+
+            <div class="modal-icon">
+                📤
+            </div>
+
+
+            <h2>
+                Share Your Work
+            </h2>
+
+
+            <p>
+                Share your page or whiteboard
+                with someone.
+            </p>
+
+
+            <div class="share-link-box">
+
+                <input
+                    id="shareLink"
+                    readonly
+                >
+
+                <button
+                    id="copyShareLinkBtn"
+                >
+                    Copy
+                </button>
+
+            </div>
+
+
+            <div class="share-buttons">
+
+                <button id="nativeShareBtn">
+                    📱 Share
+                </button>
+
+                <button id="exportSharePDFBtn">
+                    📄 PDF
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================================
+         SETTINGS MODAL
+    ================================================== -->
+
+    <div
+        id="settingsModal"
+        class="modal"
+        hidden
+    >
+
+        <div class="modal-box">
+
+            <button
+                id="closeSettingsBtn"
+                class="modal-close"
+            >
+                ✕
+            </button>
+
+
+            <h2>
+                ⚙️ Settings
+            </h2>
+
+
+            <div class="setting-row">
+
+                <div>
+
+                    <strong>
+                        Grid
+                    </strong>
+
+                    <small>
+                        Show grid on whiteboard
+                    </small>
+
+                </div>
+
+                <input
+                    type="checkbox"
+                    id="gridToggle"
+                >
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <div>
+
+                    <strong>
+                        Dark Mode
+                    </strong>
+
+                    <small>
+                        Use dark interface
+                    </small>
+
+                </div>
+
+                <input
+                    type="checkbox"
+                    id="darkModeToggle"
+                >
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <div>
+
+                    <strong>
+                        Empty Message
+                    </strong>
+
+                    <small>
+                        Show start message
+                    </small>
+
+                </div>
+
+                <input
+                    type="checkbox"
+                    id="emptyMessageToggle"
+                    checked
+                >
+
+            </div>
+
+
+            <button
+                id="closeSettingsBtn2"
+                class="primary-btn full-btn"
+            >
+                Done
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================================
+         EXPORT MODAL
+    ================================================== -->
+
+    <div
+        id="exportModal"
+        class="modal"
+        hidden
+    >
+
+        <div class="modal-box">
+
+            <button
+                id="closeExportBtn"
+                class="modal-close"
+            >
+                ✕
+            </button>
+
+
+            <h2>
+                Export
+            </h2>
+
+
+            <p>
+                Choose how you want to
+                save your whiteboard.
+            </p>
+
+
+            <div class="export-options">
+
+                <button id="exportPNG">
+                    🖼️ Export PNG
+                </button>
+
+                <button id="exportJSON">
+                    📦 Export Board File
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================================
+         HIDDEN INPUTS
+    ================================================== -->
+
+    <input
+        type="file"
+        id="imageInput"
+        accept="image/*"
+        hidden
+    >
+
+
+    <input
+        type="file"
+        id="pageImageInput"
+        accept="image/*"
+        hidden
+    >
+
+
+
+    <!-- =================================================
+         TOAST
+    ================================================== -->
+
+    <div
+        id="toast"
+        class="toast"
+    >
+
+        <span>
+            ✓
+        </span>
+
+        <span id="toastMessage">
+            Done
+        </span>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+====================================================== -->
+
+<script src="script.js"></script>
+
+</body>
+</html>
