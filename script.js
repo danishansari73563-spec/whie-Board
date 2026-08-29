@@ -2845,7 +2845,381 @@ ${richEditor.innerHTML}
                 2200
             );
     }
+  
+    /* =========================================================
+   SELECT + MOVE OBJECTS
+   ========================================================= */
 
+let selectedObjects = [];
+let isMovingObjects = false;
+let moveStartX = 0;
+let moveStartY = 0;
+let originalPositions = [];
+
+function getObjectBounds(obj) {
+    if (!obj) return null;
+
+    if (["line", "arrow", "rectangle", "triangle"].includes(obj.type)) {
+        return {
+            x: Math.min(obj.x1, obj.x2),
+            y: Math.min(obj.y1, obj.y2),
+            width: Math.abs(obj.x2 - obj.x1),
+            height: Math.abs(obj.y2 - obj.y1)
+        };
+    }
+
+    if (obj.type === "circle") {
+        const radius = Math.hypot(
+            obj.x2 - obj.x1,
+            obj.y2 - obj.y1
+        );
+
+        return {
+            x: obj.x1 - radius,
+            y: obj.y1 - radius,
+            width: radius * 2,
+            height: radius * 2
+        };
+    }
+
+    if (["text", "note", "image"].includes(obj.type)) {
+        return {
+            x: obj.x || 0,
+            y: obj.y || 0,
+            width: obj.width || 100,
+            height: obj.height || 50
+        };
+    }
+
+    return null;
+}
+
+
+function objectAtPoint(x, y) {
+
+    for (let i = objects.length - 1; i >= 0; i--) {
+
+        const b = getObjectBounds(objects[i]);
+
+        if (!b) continue;
+
+        if (
+            x >= b.x &&
+            x <= b.x + b.width &&
+            y >= b.y &&
+            y <= b.y + b.height
+        ) {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
+
+/* =========================================================
+   SELECT
+   ========================================================= */
+
+canvas.addEventListener("pointerdown", function(e) {
+
+    if (currentTool !== "select") return;
+
+    const p = getPointerPosition(e);
+
+    const index = objectAtPoint(p.x, p.y);
+
+    if (index === -1) {
+
+        selectedObjects = [];
+
+        redrawCanvas();
+
+        return;
+    }
+
+
+    /* Shift = multi select */
+
+    if (e.shiftKey) {
+
+        if (selectedObjects.includes(index)) {
+
+            selectedObjects =
+                selectedObjects.filter(
+                    i => i !== index
+                );
+
+        } else {
+
+            selectedObjects.push(index);
+        }
+
+    } else {
+
+        selectedObjects = [index];
+    }
+
+
+    /* Save original position */
+
+    originalPositions =
+        selectedObjects.map(index => ({
+            index: index,
+            object: JSON.parse(
+                JSON.stringify(objects[index])
+            )
+        }));
+
+
+    moveStartX = p.x;
+    moveStartY = p.y;
+
+    isMovingObjects = true;
+
+    canvas.setPointerCapture(e.pointerId);
+
+    redrawCanvas();
+
+});
+
+
+/* =========================================================
+   MOVE
+   ========================================================= */
+
+canvas.addEventListener("pointermove", function(e) {
+
+    if (
+        currentTool !== "select" ||
+        !isMovingObjects
+    ) {
+        return;
+    }
+
+
+    const p = getPointerPosition(e);
+
+    const dx = p.x - moveStartX;
+    const dy = p.y - moveStartY;
+
+
+    originalPositions.forEach(item => {
+
+        const obj = objects[item.index];
+        const original = item.object;
+
+
+        if (
+            ["line", "arrow", "rectangle", "triangle"]
+                .includes(obj.type)
+        ) {
+
+            obj.x1 = original.x1 + dx;
+            obj.y1 = original.y1 + dy;
+
+            obj.x2 = original.x2 + dx;
+            obj.y2 = original.y2 + dy;
+
+        }
+
+
+        else if (obj.type === "circle") {
+
+            obj.x1 = original.x1 + dx;
+            obj.y1 = original.y1 + dy;
+
+            obj.x2 = original.x2 + dx;
+            obj.y2 = original.y2 + dy;
+
+        }
+
+
+        else if (
+            ["text", "note", "image"]
+                .includes(obj.type)
+        ) {
+
+            obj.x = original.x + dx;
+            obj.y = original.y + dy;
+
+        }
+
+    });
+
+
+    redrawCanvas();
+
+});
+
+
+/* =========================================================
+   STOP MOVE
+   ========================================================= */
+
+canvas.addEventListener("pointerup", function(e) {
+
+    if (!isMovingObjects) return;
+
+    isMovingObjects = false;
+
+    try {
+        canvas.releasePointerCapture(e.pointerId);
+    } catch (_) {}
+
+    canvas.style.cursor = "default";
+
+    saveEverything();
+
+    updateObjectCount();
+
+    redrawCanvas();
+
+    if (selectedObjects.length > 0) {
+        showToast("Object moved");
+    }
+
+});
+
+
+/* =========================================================
+   DRAW SELECTION
+   ========================================================= */
+
+function drawObjectSelection() {
+
+    if (
+        currentTool !== "select" ||
+        selectedObjects.length === 0
+    ) {
+        return;
+    }
+
+
+    selectedObjects.forEach(index => {
+
+        const obj = objects[index];
+
+        if (!obj) return;
+
+        const b = getObjectBounds(obj);
+
+        if (!b) return;
+
+
+        ctx.save();
+
+        ctx.strokeStyle = "#2563eb";
+
+        ctx.lineWidth = 2;
+
+        ctx.setLineDash([6, 4]);
+
+        ctx.strokeRect(
+            b.x - 6,
+            b.y - 6,
+            b.width + 12,
+            b.height + 12
+        );
+
+
+        ctx.setLineDash([]);
+
+        ctx.fillStyle = "#2563eb";
+
+
+        const handles = [
+            [b.x - 6, b.y - 6],
+            [b.x + b.width + 6, b.y - 6],
+            [b.x - 6, b.y + b.height + 6],
+            [b.x + b.width + 6, b.y + b.height + 6]
+        ];
+
+
+        handles.forEach(([x, y]) => {
+
+            ctx.fillRect(
+                x - 4,
+                y - 4,
+                8,
+                8
+            );
+
+        });
+
+
+        ctx.restore();
+
+    });
+
+}
+
+
+/* =========================================================
+   WRAP REDRAW
+   ========================================================= */
+
+const oldRedrawCanvas = redrawCanvas;
+
+redrawCanvas = function() {
+
+    oldRedrawCanvas();
+
+    drawObjectSelection();
+
+};
+
+
+/* =========================================================
+   DELETE SELECTED
+   ========================================================= */
+
+document.addEventListener("keydown", function(e) {
+
+    if (
+        (e.key === "Delete" ||
+         e.key === "Backspace") &&
+        selectedObjects.length > 0
+    ) {
+
+        e.preventDefault();
+
+        const indexes =
+            [...selectedObjects]
+                .sort((a, b) => b - a);
+
+
+        indexes.forEach(index => {
+
+            objects.splice(index, 1);
+
+        });
+
+
+        selectedObjects = [];
+
+        saveEverything();
+
+        updateObjectCount();
+
+        redrawCanvas();
+
+        showToast("Object deleted");
+
+    }
+
+
+    /* Escape */
+
+    if (e.key === "Escape") {
+
+        selectedObjects = [];
+
+        redrawCanvas();
+
+    }
+
+});
     /* =====================================================
        INITIALIZE
     ===================================================== */
