@@ -16,6 +16,7 @@
     <title>DrawBoard - Whiteboard & Pages</title>
 
     <!-- Main CSS -->
+     <link rel="manifest" href="./manifest.json">
     <link rel="stylesheet" href="style.css">
 
     <!-- Google Fonts -->
@@ -1538,6 +1539,19 @@
 ====================================================== -->
 
 <script src="script.js"></script>
+<script>
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js")
+            .then(() => {
+                console.log("DrawBoard Service Worker registered 🚀");
+            })
+            .catch(error => {
+                console.error("Service Worker error:", error);
+            });
+    });
+}
+</script>
 
 </body>
 </html>
